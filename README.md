@@ -11,7 +11,7 @@ Current implementation loads that have in their starting chain previous state se
 ```
 dotnet run -- user/local.json
 dotnet run -- user/stage.json
-dotnet run -- user/local.json
+dotnet run -- user/prod.json
 ```
 
 ## References
