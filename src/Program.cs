@@ -44,9 +44,11 @@ namespace encompass_find_loans {
             var eventsByMilestone = events.ToLookup<Event, string, Event>(ev => Convert.ToString(ev.Origin.Data.currentState.stcuMilestone), ev => ev);
             foreach (var milestoneGroup in eventsByMilestone) {
                 Console.WriteLine($"Milestone: {milestoneGroup.Key}");
-                foreach (var ev in milestoneGroup.Take(10)) {
-//                     ev.Origin.Data.milestoneCurrentDateUtc
-                    
+                // new method of selection: sort by milestone current date utc and then take 1st 10
+                var selection = milestoneGroup.OrderByDescending(ev => (DateTime)ev.Origin.Data.currentState.milestoneCurrentDateUtc).Take(10);
+                // var selection = milestoneGroup.Take(10); // old method of selection - just 1st 10.
+
+                foreach (var ev in selection) {
                     var utc = (DateTime)ev.Origin.Data.currentState.milestoneCurrentDateUtc;
                     var local = utc.ToLocalTime();
                     Console.WriteLine($"Loan: {ev.Origin.Data.currentState.loanNumber}, Milestone: {milestoneGroup.Key}, Date (local): {local}   Date (UTC): {utc}");
